@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CYB101 - Introduction to Cybersecurity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #dc143c 0%, #8b0000 100%);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: -2px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #dc143c;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .features {
+            padding: 5rem 2rem;
+            background: linear-gradient(45deg, #f8f9fa 0%, white 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #dc143c;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #dc143c, #ff6b8a);
+            border-radius: 2px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #dc143c, #ff6b8a);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(220, 20, 60, 0.2);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #dc143c, #ff6b8a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .feature-card h3 {
+            color: #dc143c;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .stats {
+            background: #dc143c;
+            padding: 4rem 2rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.05) 2px,
+                rgba(255,255,255,0.05) 4px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(-50px) translateY(-50px); }
+            100% { transform: translateX(50px) translateY(50px); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer {
+            background: #1a1a1a;
+            color: white;
+            padding: 3rem 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer h3 {
+            color: #dc143c;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .instructor-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 2rem;
+            }
+
+            .syllabus-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .assessment-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .instructor-credentials {
+                justify-content: center;
+            }
+        }
+
+        .instructor-section {
+            padding: 5rem 2rem;
+            background: white;
+        }
+
+        .instructor-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #f8f9fa 0%, white 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 15px 40px rgba(220, 20, 60, 0.1);
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .instructor-avatar {
+            flex-shrink: 0;
+        }
+
+        .avatar-placeholder {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #dc143c, #ff6b8a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .instructor-info h3 {
+            color: #dc143c;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .instructor-title {
+            color: #666;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .instructor-bio {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructor-credentials {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .credential {
+            background: rgba(220, 20, 60, 0.1);
+            color: #dc143c;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid rgba(220, 20, 60, 0.2);
+        }
+
+        .syllabus-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .syllabus-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .syllabus-overview h3,
+        .weekly-breakdown h3 {
+            color: #dc143c;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .course-details {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.1);
+            margin-top: 2rem;
+        }
+
+        .detail-item {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item strong {
+            color: #dc143c;
+        }
+
+        .weeks-container {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .week-group {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(220, 20, 60, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .week-group:hover {
+            transform: translateY(-5px);
+        }
+
+        .week-group h4 {
+            color: #dc143c;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .week-group ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .week-group li {
+            padding: 0.5rem 0;
+            color: #555;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .week-group li::before {
+            content: '•';
+            color: #dc143c;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .assessment-info {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .assessment-info h3 {
+            color: #dc143c;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            font-weight: 600;
+        }
+
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .assessment-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(220, 20, 60, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .assessment-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .assessment-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .assessment-item h4 {
+            color: #dc143c;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .assessment-item p {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: particle-float 6s infinite linear;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="hero">
+        <div class="cyber-particles" id="particles"></div>
+        <div class="hero-content">
+            <h1>CYB101</h1>
+            <p class="subtitle">Introduction to Cybersecurity</p>
+            <p style="color: rgba(255,255,255,0.8); margin-bottom: 2rem; font-size: 1.1rem;">
+                Master the fundamentals of cybersecurity and protect the digital world
+            </p>
+            <a href="#features" class="cta-button">Explore Course Content</a>
+        </div>
+    </div>
+
+    <div class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">What You'll Learn</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Security Fundamentals</h3>
+                    <p>Understanding core cybersecurity principles, threat landscapes, and risk management strategies to build a solid foundation in digital security.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Cryptography Basics</h3>
+                    <p>Learn encryption methods, digital signatures, and cryptographic protocols that form the backbone of secure communications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Network Security</h3>
+                    <p>Explore network protocols, firewalls, intrusion detection systems, and methods to secure network infrastructure.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">⚠️</div>
+                    <h3>Threat Analysis</h3>
+                    <p>Identify, analyze, and respond to various cyber threats including malware, phishing, and social engineering attacks.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Incident Response</h3>
+                    <p>Develop skills in detecting, containing, and recovering from security incidents while maintaining business continuity.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Compliance & Ethics</h3>
+                    <p>Understanding legal frameworks, industry standards, and ethical considerations in cybersecurity practice.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">16</div>
+                    <div class="stat-label">Weeks</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">Topics Covered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Lab Exercises</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Hands-On Learning</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="instructor-section">
+        <div class="container">
+            <h2 class="section-title">Meet Your Instructor</h2>
+            <div class="instructor-card">
+                <div class="instructor-avatar">
+                    <div class="avatar-placeholder">TC</div>
+                </div>
+                <div class="instructor-info">
+                    <h3>Timothy "TJ" Chenoweth</h3>
+                    <p class="instructor-title">Cybersecurity Professor & Industry Expert</p>
+                    <p class="instructor-bio">
+                        Professor Chenoweth brings extensive experience in cybersecurity education and real-world application. 
+                        With a passion for making complex security concepts accessible to students, TJ combines academic rigor 
+                        with practical industry insights to prepare the next generation of cybersecurity professionals.
+                    </p>
+                    <div class="instructor-credentials">
+                        <span class="credential">📚 D.IT. Information Technology</span>
+                        <span class="credential">🔒 CISSP Certified</span>
+                        <span class="credential">⭐ 5+ Years Teaching</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="syllabus-section">
+        <div class="container">
+            <h2 class="section-title">Course Syllabus</h2>
+            <div class="syllabus-grid">
+                <div class="syllabus-overview">
+                    <h3>Course Overview</h3>
+                    <p>CYB101 provides a comprehensive introduction to cybersecurity fundamentals, covering essential concepts, tools, and practices needed to understand and address modern security challenges.</p>
+                    
+                    <div class="course-details">
+                        <div class="detail-item">
+                            <strong>Duration:</strong> 16 Weeks
+                        </div>
+                        <div class="detail-item">
+                            <strong>Credits:</strong> 3 Credit Hours
+                        </div>
+                        <div class="detail-item">
+                            <strong>Prerequisites:</strong> Basic Computer Literacy
+                        </div>
+                        <div class="detail-item">
+                            <strong>Format:</strong> Hybrid (In-person & Online)
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weekly-breakdown">
+                    <h3>Weekly Breakdown</h3>
+                    <div class="weeks-container">
+                        <div class="week-group">
+                            <h4>Weeks 1-4: Foundations</h4>
+                            <ul>
+                                <li>Introduction to Cybersecurity</li>
+                                <li>Threat Landscape Overview</li>
+                                <li>Risk Management Basics</li>
+                                <li>Security Principles & CIA Triad</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="week-group">
+                            <h4>Weeks 5-8: Technical Fundamentals</h4>
+                            <ul>
+                                <li>Cryptography Essentials</li>
+                                <li>Network Security Basics</li>
+                                <li>Operating System Security</li>
+                                <li>Access Control Systems</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="week-group">
+                            <h4>Weeks 9-12: Threat & Incident Management</h4>
+                            <ul>
+                                <li>Malware Analysis</li>
+                                <li>Social Engineering</li>
+                                <li>Incident Response Planning</li>
+                                <li>Digital Forensics Basics</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="week-group">
+                            <h4>Weeks 13-16: Advanced Topics</h4>
+                            <ul>
+                                <li>Compliance & Governance</li>
+                                <li>Business Continuity Planning</li>
+                                <li>Emerging Threats & Technologies</li>
+                                <li>Final Projects & Assessment</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="assessment-info">
+                <h3>Assessment Structure</h3>
+                <div class="assessment-grid">
+                    <div class="assessment-item">
+                        <div class="assessment-icon">📝</div>
+                        <h4>Assignments</h4>
+                        <p>30%</p>
+                    </div>
+                    <div class="assessment-item">
+                        <div class="assessment-icon">🧪</div>
+                        <h4>Lab Exercises</h4>
+                        <p>25%</p>
+                    </div>
+                    <div class="assessment-item">
+                        <div class="assessment-icon">📋</div>
+                        <h4>Midterm Exam</h4>
+                        <p>20%</p>
+                    </div>
+                    <div class="assessment-item">
+                        <div class="assessment-icon">🎓</div>
+                        <h4>Final Project</h4>
+                        <p>25%</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="container">
+            <div class="footer-content">
+                <h3>Ready to Secure the Future?</h3>
+                <p>Join CYB101 and start your journey into the exciting world of cybersecurity. Build the skills needed to protect organizations and individuals in our increasingly connected world.</p>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 CYB101 - Introduction to Cybersecurity Course</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 8 + 4) + 'px';
+                particle.style.animationDelay = '0s';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                
+                particlesContainer.appendChild(particle);
+                
+                // Remove particle after animation
+                setTimeout(() => {
+                    if (particle.parentNode) {
+                        particle.parentNode.removeChild(particle);
+                    }
+                }, 6000);
+            }, 300);
+        }
+
+        // Start particle animation
+        createParticles();
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe feature cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = `all 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
